@@ -1,0 +1,16 @@
+// 主题色
+$primary-color: #09b955;
+$room-bg-color: #fbfbfb;
+$room-bg-color2: #dedede;
+$message-bg-color:#f1f1f1;
+$message-bg-color2: #6f6f6f;
+
+@mixin globalBackColor($color){
+  background-color : $color;
+  [back-color="day"]  {
+    background-color : $message-bg-color;
+  }
+  [back-color="night"]  {
+    background-color : $message-bg-color2;
+  }
+}

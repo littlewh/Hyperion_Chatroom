@@ -1,0 +1,18 @@
+// 修改antd 折叠面板
+.ant-collapse {
+  background: #fbfbfb !important;
+  border: none;
+}
+.ant-collapse-item {
+  border: none !important;
+}
+.ant-collapse-content {
+  border: none !important;
+}
+.ant-collapse-header {
+  text-align: left;
+}
+.ant-collapse-content-box {
+  padding: 0 !important;
+}
+
