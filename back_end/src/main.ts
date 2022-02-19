@@ -2,17 +2,22 @@ import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './app.module'
 import { HttpExceptionFilter } from './common/filters/http-exception.filter'
+import { logger } from './common/middleware/logger.middleware'
 import { ResponseInterceptor } from './common/interceptor/response.interceptor'
 import { join } from 'path'
 import { IoAdapter } from '@nestjs/platform-socket.io'
 
+const fix_socket_io_bug = require('./fix')
+
 async function bootstrap() {
+  await fix_socket_io_bug()
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     cors: true
   })
   app.useWebSocketAdapter(new IoAdapter(app))
 
+  app.use(logger)
 
   // 全局过滤器
   app.useGlobalFilters(new HttpExceptionFilter())

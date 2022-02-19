@@ -1,11 +1,11 @@
 <!-- 左侧按钮-->
 <template>
   <div class="tool">
-<!--    <div class="tool-panel">-->
-<!--      <div class="close"></div>-->
-<!--      <div class="zoom-in"></div>-->
-<!--      <div class="zoom-out"></div>-->
-<!--    </div>-->
+    <!--    <div class="tool-panel">-->
+    <!--      <div class="close"></div>-->
+    <!--      <div class="zoom-in"></div>-->
+    <!--      <div class="zoom-out"></div>-->
+    <!--    </div>-->
     <!-- 顶部头像区域 -->
     <div class="tool-avatar">
       <div class="tool-avatar-img" @click="showUserInfo('showUserModal')">

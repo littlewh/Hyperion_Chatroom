@@ -6,6 +6,7 @@ import { AppState } from './state';
 import { RootState } from '../../index';
 
 const actions: ActionTree<AppState, RootState> = {
+
   async register({ commit }, payload) {
     commit(SET_LOADING, true);
     const res = await axios.post('/auth/register', {
@@ -21,7 +22,24 @@ const actions: ActionTree<AppState, RootState> = {
   },
   async login({ commit }, payload) {
     commit(SET_LOADING, true);
+
     const res = await axios.post('/auth/login', {
+      ...payload,
+    });
+    const data = processReturn(res);
+    commit(SET_LOADING, false);
+    if (data) {
+      commit(SET_USER, data.user);
+      commit(SET_TOKEN, data.token);
+      return data;
+    }
+  },
+
+  async send({ commit }, payload) {
+    // console.log("1");
+    commit(SET_LOADING, true);
+
+    const res = await axios.post('/auth/email', {
       ...payload,
     });
     const data = processReturn(res);

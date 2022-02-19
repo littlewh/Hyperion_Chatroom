@@ -9,6 +9,11 @@ const routes: Array<RouteConfig> = [
     name: 'Chat',
     component: () => import('@/views/Chat.vue'),
   },
+  {
+    path: '/',
+    name: 'Test1',
+    component: () => import('@/views/Register.vue'),
+  },
 ];
 
 const router = new VueRouter({

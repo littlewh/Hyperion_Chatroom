@@ -16,6 +16,7 @@ const appState: AppState = {
     username: '',
     password: '',
     avatar: '',
+    email: '',
     createTime: 0,
   },
   token: cookie.get('token') as string,

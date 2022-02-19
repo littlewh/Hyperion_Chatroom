@@ -1,4 +1,4 @@
-// JWT鉴权 token身份认证
+  // JWT鉴权 token身份认证
 import { AuthService } from './../../modules/auth/auth.service'
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { WsException } from '@nestjs/websockets'

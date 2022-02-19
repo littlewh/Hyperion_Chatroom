@@ -30,6 +30,13 @@ export default class Chat extends Vue {
       this.set_background(DEFAULT_BACKGROUND);
     }
   }
+
+  isMobile() {
+    const flag = navigator.userAgent.match(
+      /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+    );
+    return flag && flag.length;
+  }
 }
 </script>
 <style lang="scss">

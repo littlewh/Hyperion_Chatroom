@@ -5,8 +5,12 @@ if (process.env.VUE_APP_CDN !== 'true' && process.env.NODE_ENV === 'production')
   bg = 'https://s3.bmp.ovh/imgs/2022/01/bafbd6f856110851.jpeg';
 }
 
+export const DEFAULT_GROUP = 'group';
+
 // 默认背景图片
 export const DEFAULT_BACKGROUND = bg;
+// 默认机器人Id
+export const DEFAULT_ROBOT = 'robot';
 
 // 附件路径
 export const IMAGE_SAVE_PATH = '/static/image/';

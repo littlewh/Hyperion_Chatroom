@@ -9,6 +9,21 @@ const getters: GetterTree<ChatState, RootState> = {
   dropped(state) {
     return state.dropped;
   },
+  activeRoom(state) {
+    return state.activeRoom;
+  },
+  groupGather(state) {
+    return state.groupGather;
+  },
+  friendGather(state) {
+    return state.friendGather;
+  },
+  userGather(state) {
+    return state.userGather;
+  },
+  unReadGather(state) {
+    return state.unReadGather;
+  },
 };
 
 export default getters;

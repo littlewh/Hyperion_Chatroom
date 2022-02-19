@@ -1,32 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no, shrink-to-fit=no" />
-    <meta name="HandheldFriendly" content="true">
-<!--    <link rel="icon" href="<%= BASE_URL %>favicon.ico">-->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no, shrink-to-fit=no" />
+  <meta name="HandheldFriendly" content="true">
+  <!--    <link rel="icon" href="<%= BASE_URL %>favicon.ico">-->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
-    <title>Hyperion_Chatroom</title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
+  <title>Hyperion_Chatroom</title>
+</head>
+<body>
+<noscript>
+  <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+</noscript>
 
-    <div id="app"></div>
+<div id="app"></div>
 <!--    通过 cdn 外链引入这些第三方库 增加构建的速度-->
 <!--    vue.config.js添加 externals 让 webpack 不打包-->
-    <% if (process.env.VUE_APP_CDN === 'true') { %>
-    <% for(var css of htmlWebpackPlugin.options.cdn.css) { %>
+<% if (process.env.VUE_APP_CDN === 'true') { %>
+<% for(var css of htmlWebpackPlugin.options.cdn.css) { %>
 <!--    依次注入 css 和 js-->
-    <link rel="stylesheet" href="<%=css%>" as="style">
-    <% } %>
-    <% for(var js of htmlWebpackPlugin.options.cdn.js) { %>
-    <script src="<%=js%>"></script>
-    <% } %>
-    <% } %>
-  </body>
+<link rel="stylesheet" href="<%=css%>" as="style">
+<% } %>
+<% for(var js of htmlWebpackPlugin.options.cdn.js) { %>
+<script src="<%=js%>"></script>
+<% } %>
+<% } %>
+</body>
 </html>

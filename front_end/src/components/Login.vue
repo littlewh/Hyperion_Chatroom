@@ -1,4 +1,4 @@
-<!-- 登录 注册界面-->
+<!-- 登录界面-->
 <template>
   <div class="login">
     <a-modal header="" footer="" :visible="showModal" :closable="false">
@@ -71,6 +71,7 @@ export default class Login extends Vue {
       this.buttonText = '登录';
     } else if (this.type === 'register') {
       this.buttonText = '注册';
+      this.$router.push({ name: 'Test1' });
     }
   }
 

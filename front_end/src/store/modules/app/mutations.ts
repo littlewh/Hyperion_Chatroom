@@ -16,6 +16,7 @@ const mutations: MutationTree<AppState> = {
             username: '',
             password: '',
             avatar: '',
+            email: '',
             createTime: 0,
         };
         cookie.set('user', '');

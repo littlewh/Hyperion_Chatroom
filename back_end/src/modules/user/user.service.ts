@@ -7,12 +7,28 @@ import { createWriteStream } from 'fs'
 import { join } from 'path'
 import { RCode } from 'src/common/constant/rcode'
 import { sha256 } from 'src/common/tool/utils'
+import { Group, GroupMap } from '../group/entity/group.entity';
+import { GroupMessage } from '../group/entity/groupMessage.entity';
+import { FriendMessage } from '../friend/entity/friendMessage.entity';
+import { UserMap } from '../friend/entity/friend.entity';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Group)
+    private readonly groupRepository: Repository<Group>,
+    @InjectRepository(GroupMap)
+    private readonly groupUserRepository: Repository<GroupMap>,
+    @InjectRepository(GroupMessage)
+    private readonly groupMessageRepository: Repository<GroupMessage>,
+    @InjectRepository(UserMap)
+    private readonly friendRepository: Repository<UserMap>,
+    @InjectRepository(FriendMessage)
+    private readonly friendMessageRepository: Repository<FriendMessage>,
+    private readonly authService: AuthService
   ) {}
 
   async getUser(userId: string) {

@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { UserModule } from './modules/user/user.module'
 import { AuthModule } from './modules/auth/auth.module'
+import { ChatModule } from './modules/chat/chat.module';
+import { GroupModule } from './modules/group/group.module';
+import { FriendModule } from './modules/friend/friend.module';
 
 @Module({
   imports: [
@@ -17,6 +20,9 @@ import { AuthModule } from './modules/auth/auth.module'
       synchronize: true
     }),
     UserModule,
+    ChatModule,
+    FriendModule,
+    GroupModule,
     AuthModule
   ]
 })

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Viewer from 'v-viewer'; // 图片预览插件
 import moment from 'moment'; // 引入moment
+import contentmenu from 'v-contextmenu';
 import lodash from 'lodash';
 import localforage from 'localforage';
 import App from './App.vue';
@@ -17,6 +18,9 @@ Vue.prototype.$moment = moment;
 // lodash
 Vue.prototype.$lodash = lodash;
 
+Vue.prototype.$localforage = localforage;
+
+Vue.use(contentmenu);
 Vue.use(Viewer, {
   defaultOptions: {
     navbar: false,

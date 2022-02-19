@@ -12,14 +12,37 @@
     <!-- 左侧列表 -->
     <div class="chat-part2">
       <template v-if="activeTabName === 'message'">
-        <Search> </Search>
+        <Search @addGroup="addGroup" @joinGroup="joinGroup" @addFriend="addFriend" @setActiveRoom="setActiveRoom"> </Search>
+        <Room @setActiveRoom="setActiveRoom"></Room>
       </template>
       <template v-else>
-        <Contact></Contact>
+        <Contact @addFriend="addFriend" @setActiveRoom="setActiveRoom"></Contact>
       </template>
+    </div>
+    <!-- 右侧聊天窗口 -->
+    <div class="chat-part3">
+      <a-icon class="chat-team" type="message" @click="toggleDrawer" />
+      <div class="chat-nav">
+        <a-icon type="menu-fold" @click="toggleNav" v-if="visibleNav" />
+        <a-icon type="menu-unfold" @click="toggleNav" v-else />
+      </div>
+      <Message v-if="activeRoom"></Message>
     </div>
     <!-- 登录注册 -->
     <Login @register="handleRegister" @login="handleLogin" :showModal="showModal"></Login>
+
+    <!-- 移动端兼容 -->
+    <a-drawer placement="left" :closable="false" :visible="visibleDrawer" @close="toggleDrawer" style="height: 100%">
+      <div class="chat-drawer">
+        <template v-if="activeTabName === 'message'">
+          <Search @addGroup="addGroup" @joinGroup="joinGroup" @addFriend="addFriend" @setActiveRoom="setActiveRoom"> </Search>
+          <Room @setActiveRoom="setActiveRoom"></Room>
+        </template>
+        <template v-else>
+          <Contact @addFriend="addFriend" @setActiveRoom="setActiveRoom"></Contact>
+        </template>
+      </div>
+    </a-drawer>
   </div>
 </template>
 
@@ -28,6 +51,8 @@ import { Component, Vue } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import Nav from '@/components/Guide.vue';
 import Login from '@/components/Login.vue';
+import Room from '@/components/Room.vue';
+import Message from '@/components/Message.vue';
 import Search from '@/components/Search.vue';
 import Contact from '@/components/Contact.vue';
 
@@ -38,6 +63,8 @@ const chatModule = namespace('chat');
   components: {
     Nav,
     Login,
+    Room,
+    Message,
     Search,
     Contact,
   },
@@ -49,17 +76,27 @@ export default class Chat extends Vue {
 
   @appModule.Action('login') login: Function;
 
-  @appModule.Action('register') register: Function;
-
   @appModule.Getter('background') background: string;
 
   @appModule.Getter('activeTabName') activeTabName: string;
 
+  @appModule.Mutation('set_activeTabName') _setActiveTabName: Function;
+
   @chatModule.Getter('socket') socket: SocketIOClient.Socket;
+
+  @chatModule.Getter('userGather') userGather: FriendGather;
+
+  @chatModule.Getter('groupGather') groupGather: GroupGather;
+
+  @chatModule.Getter('activeRoom') activeRoom: Friend & Group;
+
+  @chatModule.Mutation('set_active_room') _setActiveRoom: Function;
 
   @chatModule.Action('connectSocket') connectSocket: Function;
 
   showModal: boolean = false;
+
+  visibleDrawer: boolean = false;
 
   visibleNav: boolean = true;
 
@@ -88,17 +125,18 @@ export default class Chat extends Vue {
     const res = await this.login(user);
     if (res) {
       // 进入系统事件
-      this.handleJoin();
+      await this.handleJoin();
     }
   }
 
   // 注册
-  async handleRegister(user: User) {
-    const res = await this.register(user);
-    if (res) {
-      // 进入系统事件
-      this.handleJoin();
-    }
+  async handleRegister() {
+    await this.$router.push({ name: 'Test1' });
+    // const res = await this.register(user);
+    // if (res) {
+    //   // 进入系统事件
+    //   this.handleJoin();
+    // }
   }
 
   // 进入系统初始化事件
@@ -107,10 +145,58 @@ export default class Chat extends Vue {
     this.connectSocket();
   }
 
+  // 创建群组
+  addGroup(groupName: string) {
+    this.socket.emit('addGroup', {
+      userId: this.user.userId,
+      groupName,
+      createTime: new Date().valueOf(),
+    });
+  }
+
+  // 加入群组
+  joinGroup(groupId: string) {
+    this.socket.emit('joinGroup', {
+      userId: this.user.userId,
+      groupId,
+    });
+  }
+
+  // 添加好友/发起私聊窗口
+  addFriend(friend: FriendMap) {
+    this.socket.emit('addFriend', {
+      userId: this.user.userId,
+      friendId: friend.friendId,
+      friendUserName: friend.friendUserName,
+      createTime: new Date().valueOf(),
+    });
+    // this.setActiveRoom({
+    //   userId: friend.friendId,
+    //   username: friend.friendUserName,
+    //   messages: [],
+    // });
+    // 此处激活聊天窗口
+    // this._setActiveTabName('message');
+  }
+
+  // 设置当前聊天窗
+  setActiveRoom(room: Friend | Group) {
+    console.log(room);
+    this._setActiveRoom(room);
+  }
+
   // 注销
   logout() {
     this.clearUser();
     this.$router.go(0);
+  }
+
+  toggleDrawer() {
+    this.visibleDrawer = !this.visibleDrawer;
+  }
+
+  toggleNav() {
+    this.visibleNav = !this.visibleNav;
   }
 }
 </script>

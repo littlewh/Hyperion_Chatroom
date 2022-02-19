@@ -9,6 +9,9 @@ export class User {
   @Column({ default: 'test' })
   username: string
 
+  @Column({ default: '2313722687@qq.com' })
+  email: string
+
   @Column({ default: '123456', select: false })
   password: string
 

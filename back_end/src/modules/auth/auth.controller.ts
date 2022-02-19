@@ -9,11 +9,19 @@ export class AuthController {
   // 登录
   @Post('/login')
   async login(@Body() body) {
+    console.log(body)
     return this.authService.login(body)
   }
   // 注册
   @Post('/register')
   async register(@Body() body) {
+    console.log(body)
     return this.authService.register(body)
+  }
+
+  @Post("/email")
+  async sendmail(@Body() body) {
+    console.log(body)
+    return this.authService.sendmail(body)
   }
 }
