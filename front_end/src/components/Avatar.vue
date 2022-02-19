@@ -13,7 +13,7 @@
           </template>
           <a-button
             v-if="user.role === 'admin'"
-            style="margin-bottom: 5px"
+            style="background-color: crimson; margin-bottom: 5px"
             @click="deleteUser(data.userId)"
             :loading="loading"
             type="primary"

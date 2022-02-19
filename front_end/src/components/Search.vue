@@ -177,6 +177,7 @@ export default class Search extends Vue {
   }
 
   async handleUserSearch(value: string) {
+    console.log("search");
     if (!value) {
       return;
     }
@@ -216,6 +217,7 @@ export default class Search extends Vue {
   }
 
   addFriend() {
+    console.log("thisfriend");
     this.setLoading(true);
     this.visibleAddFriend = false;
     this.$emit('addFriend', this.friend);

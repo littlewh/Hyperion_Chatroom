@@ -102,7 +102,7 @@ const actions: ActionTree<ChatState, RootState> = {
             members: Object.values(state.friendGather).filter((friend) => friendIds.includes(friend.userId)),
           });
           const groupGather2 = state.groupGather;
-          // ?? 待优化
+
           commit(SET_ACTIVE_ROOM, groupGather2[group.groupId]);
           return Vue.prototype.$message.info(res.msg);
         }

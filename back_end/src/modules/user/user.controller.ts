@@ -54,6 +54,7 @@ export class UserController {
 
   @Get('/findByName')
   getUsersByName(@Query('username') username: string) {
+    console.log("findbyname");
     return this.userService.getUsersByName(username)
   }
 

@@ -26,8 +26,8 @@ export class User {
   @Column({ default: 'on' })
   status: string
 
-  //备注
-  @Column({ default: '' })
+  //异地登录
+  @Column({ default: 'offline' })
   tag: string
 
   @Column({ type: 'double', default: new Date().valueOf() })

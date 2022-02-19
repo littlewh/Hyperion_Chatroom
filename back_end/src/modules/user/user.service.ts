@@ -107,13 +107,15 @@ export class UserService {
 
   async delUser(user: User, did: string) {
     try {
-      if (user.role === 'admin') {
+      const verifyuser = await this.userRepository.findOne({userId: user.userId})
+      console.log("delete：role"+verifyuser.role)
+      if (verifyuser.role === 'admin') { // 验证身份
         const newUser = await this.userRepository.findOne({ userId: did })
         newUser.status = "close";
         await this.userRepository.update(did,newUser)
-        return { msg: '用户删除成功' }
+        return { msg: '用户删除成功', data: newUser }
       }
-      return { code: RCode.FAIL, msg: '用户删除失败' }
+      return { code: RCode.FAIL, msg: '用户删除失败', data: ''}
     } catch (e) {
       return { code: RCode.ERROR, msg: '用户删除失败', data: e }
     }
@@ -121,10 +123,12 @@ export class UserService {
 
   async getUsersByName(username: string) {
     try {
+      console.log(username)
       if (username) {
         const users = await this.userRepository.find({
           where: { username: Like(`%${username}%`) }
         })
+        // console.log(users)
         return { data: users }
       }
       return { code: RCode.FAIL, msg: '请输入用户名', data: null }

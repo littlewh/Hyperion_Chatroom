@@ -35,11 +35,8 @@ const mutations: MutationTree<ChatState> = {
     state.dropped = payload;
   },
 
-  /**
-   * 用户上线
-   * @param state
-   * @param payload userId
-   */
+   // 用户上线
+
   [USER_ONLINE](state, userId: string) {
     // 更新好友列表用户状态
     if (state.friendGather[userId]) {

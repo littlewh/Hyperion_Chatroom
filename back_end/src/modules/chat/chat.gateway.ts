@@ -68,6 +68,11 @@ export class ChatGateway {
     // TODO 待优化
     client.join(defaultGroupId)
     // 进来统计一下在线人数
+
+    const newUser = await this.userRepository.findOne({userId: userId});
+    newUser.tag = 'online';
+    await this.userRepository.update(userId, newUser);
+
     console.log('用户上线', userId)
     // 上线提醒广播给所有人
     client.broadcast.emit('userOnline', {
@@ -86,6 +91,11 @@ export class ChatGateway {
   // socket断连钩子
   async handleDisconnect(client: Socket): Promise<any> {
     const userId = client.handshake.query.userId
+
+    const newUser = await this.userRepository.findOne({userId: userId});
+    newUser.tag = 'offline';
+    await this.userRepository.update(userId, newUser);
+
     console.log('用户下线', userId)
     // 下线提醒广播给所有人
     client.broadcast.emit('userOffline', {

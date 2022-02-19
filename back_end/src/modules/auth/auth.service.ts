@@ -222,11 +222,15 @@ export class AuthService {
     }
     if (!user) {
       return { code: 1, msg: '用户名或密码错误', data: '' }
-    }
-    else if(user.status == 'close')
-    {
+    } else if(user.status === 'close') {
       return { code: 1, msg: '用户已被禁止使用', data: '' }
+    } else if(user.tag === 'online') { // 防止异地登录
+      return { code: 1, msg: '用户已在别处登录', data: '' }
     }
+
+    user.tag = 'online' // 防止异地登录
+    await this.userRepository.update(user.userId, user);
+
     const payload = { userId: user.userId }
     return {
       msg: '登录成功',

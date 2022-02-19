@@ -1,0 +1,111 @@
+@startuml
+
+'  left to right direction
+
+skinparam classAttributeIconSize 0
+skinparam usecase {
+BackgroundColor White
+BorderColor Black
+ArrowColor Black
+BorderColor Black
+}
+package filter {
+    interface ExceptionFilter {}
+    class HttpExceptionFilter {}
+    HttpExceptionFilter --|> ExceptionFilter
+    class BaseWsExceptionFilter {}
+    class WsExceptionFilter{}
+    WsExceptionFilter --|> BaseWsExceptionFilter
+}
+package guards {
+    interface CanActivate{}
+    class WsJwtGuard{}
+    WsJwtGuard --|> CanActivate
+}
+
+package interceptor {
+    interface NestInterceptor{}
+    class ResponseInterceptor{}
+    ResponseInterceptor --|> NestInterceptor
+}
+
+package auth {
+    class AuthController{}
+    class AuthModule{}
+    class Nodemailer{}
+    class AuthService{}
+    class PassportStrategy{}
+    class JwtStrategy{}
+    JwtStrategy --|> PassportStrategy
+    class LocalStrategy{}
+    JLocalStrategy --|> PassportStrategy
+}
+
+package chat {
+    class ChatGateway{}
+    class ChatModule{}
+
+}
+package friend {
+    class FriendController{}
+    class FriendModule{}
+    class FriendService{}
+}
+package friend {
+    class GroupController{}
+    class GroupModule{}
+    class GroupService{}
+}
+package mail {
+    class mail{}
+}
+package user {
+    class UserController{}
+    class UserModule{}
+    class UserService{}
+}
+
+class AppModule{}
+
+filter -- main
+WsJwtGuard -- ChatGateway
+ResponseInterceptor -- main
+
+AuthController -- AuthModule
+AuthModule -- AppModule
+AuthModule -- ChatModule
+AuthModule -- UserModule
+Nodemailer -- AuthModule
+Nodemailer -- AuthService
+AuthService -- WsJwtGuard
+AuthService -- AuthController
+AuthService -- AuthModule
+AuthService -- LocalStrategy
+AuthService -- ChatGateway
+AuthService -- UserController
+AuthService -- UserService
+JwtStrategy -- AuthModule
+LocalStrategy -- AuthModule
+
+ChatGateway -- ChatModule
+ChatModule -- AppModule
+
+FriendController -- FriendModule
+FriendService -- FriendController
+FriendService -- FriendModule
+FriendModule -- AppModule
+
+GroupController -- GroupModule
+GroupService -- GroupController
+GroupService -- GroupModule
+GroupModule -- AppModule
+
+UserController -- UserModule
+UserService -- UserController
+UserService -- UserModule
+UserModule -- AppModule
+
+'Export Current Diagram
+@enduml
+
+

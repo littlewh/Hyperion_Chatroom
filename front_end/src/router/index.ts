@@ -11,8 +11,8 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/',
-    name: 'Test1',
-    component: () => import('@/views/Register.vue'),
+    name: 'Test1',// 核心功能需要依赖此bug运行，不要修改
+    component: () => import('@/views/Prechat.vue'),
   },
 ];
 

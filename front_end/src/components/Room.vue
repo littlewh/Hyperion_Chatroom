@@ -17,6 +17,7 @@
           <v-contextmenu-item @click="handleCommand('READ', chat)">标记已读</v-contextmenu-item>
           <v-contextmenu-item divider></v-contextmenu-item>
           <v-contextmenu-item @click="handleCommand('DELETE', chat)">删除</v-contextmenu-item>
+          <v-contextmenu-item v-if="user.role === 'admin'" @click="deleteUser(chat.userId)">删除用户</v-contextmenu-item>
         </v-contextmenu>
         <a-badge class="room-card-badge" dot v-if="unReadGather[chat.groupId]" />
         <img class="room-card-type" src="~@/assets/group.png" alt="" />
@@ -59,6 +60,7 @@
           <v-contextmenu-item @click="handleCommand('READ', chat)">标记已读</v-contextmenu-item>
           <v-contextmenu-item divider></v-contextmenu-item>
           <v-contextmenu-item @click="handleCommand('DELETE', chat)">删除</v-contextmenu-item>
+          <v-contextmenu-item v-if="user.role === 'admin'" @click="deleteUser(chat.userId)">删除用户</v-contextmenu-item>
         </v-contextmenu>
         <a-badge class="room-card-badge" :count="unReadGather[chat.userId]" />
         <img class="room-card-type" :src="apiUrl + friendGather[chat.userId].avatar" :class="{ offLine: avatarOffLine(chat) }" alt="" />
@@ -96,6 +98,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { parseText, formatTime } from '@/utils/common';
 import { DEFAULT_ROBOT } from '@/images';
+import * as api from '@/api/apis';
 
 const chatModule = namespace('chat');
 const appModule = namespace('app');
@@ -219,6 +222,16 @@ export default class Room extends Vue {
   avatarOffLine(chat: Friend) {
     // 机器人默认在线
     return chat.userId === DEFAULT_ROBOT ? false : !chat.online;
+  }
+
+  async deleteUser(userId: string) {
+    console.log(this.user.userId);
+    console.log(userId)
+    await api.deleteUser({
+      uid: this.user.userId,
+      psw: this.user.password,
+      did: userId,
+    });
   }
 
   // 获取消息列表数据
