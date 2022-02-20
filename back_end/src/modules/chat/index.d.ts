@@ -29,7 +29,7 @@ interface FriendDto {
   username: string
   avatar: string
   role?: string
-  tag?: string
+  status?: string
   messages?: FriendMessageDto[]
   createTime: number
   online?: 1 | 0 // 是否在线

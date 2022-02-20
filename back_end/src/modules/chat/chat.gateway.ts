@@ -220,7 +220,7 @@ export class ChatGateway {
   async sendGroupMessage(@MessageBody() data: GroupMessageDto): Promise<any> {
     const isUser = await this.userRepository.findOne({ userId: data.userId })
     console.log(data)
-    if (isUser) {
+    if (isUser.status === 'on') {
       const userGroupMap = await this.groupUserRepository.findOne({
         userId: data.userId,
         groupId: data.groupId
@@ -692,7 +692,10 @@ export class ChatGateway {
                   : ((_user as FriendDto).online = 0)
                 // 检查是否为群主
                 _user.isManager = _user.userId === group.userId ? 1 : 0
-                group.members.push(_user)
+                if(_user.status === 'on') { //正常用户才能在群里
+                  group.members.push(_user)
+                }
+
               }
             }
           }

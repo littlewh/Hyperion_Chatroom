@@ -11,7 +11,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/',
-    name: 'Test1',// 核心功能需要依赖此bug运行，不要修改
+    name: 'Test1',// 注册功能需要依赖此bug运行，不过这行注释可以删
     component: () => import('@/views/Prechat.vue'),
   },
 ];
