@@ -473,17 +473,17 @@ export class ChatGateway {
     }
   }
 
-  async getElasticData(splitWords: string) {
-    console.log("splitWords"+splitWords)
-    const replication: Ai[] = await this.aiRepository.find({ key: splitWords });
-    let n = replication.length;
-    if(!n) {
-      return null;
-    } else {
-      const i = Math.round(Math.random() * n);
-      return replication[i].reply;
-    }
-  }
+  // async getElasticData(splitWords: string) {
+  //   console.log("splitWords"+splitWords)
+  //   const replication: Ai[] = await this.aiRepository.find({ key: splitWords });
+  //   let n = replication.length;
+  //   if(!n) {
+  //     return null;
+  //   } else {
+  //     const i = Math.round(Math.random() * n);
+  //     return replication[i].reply;
+  //   }
+  // }
 
   // // 通过输入内容模糊匹配自动回复词条
   // async getReplyMessage(content: string) {

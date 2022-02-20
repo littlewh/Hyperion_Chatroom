@@ -123,7 +123,6 @@ export default class Panel extends Vue {
   groupName: string = ''; // 群名称
 
   get activeNum() {
-    // 修复在线人数bug,当前聊天窗口为私聊窗口时 "(error during evaluation)"
     if (this.type === 'group' && this.activeRoom.members) {
       return this.activeRoom.members!.filter((item) => item.online).length;
     }

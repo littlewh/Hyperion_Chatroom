@@ -214,7 +214,7 @@ export default class Message extends Vue {
       const nameArr = name.split('.');
       const fileExtension = nameArr[nameArr.length - 1];
       console.log(fileExtension);
-      // 获取附件图标(项目中预设了几种,如果找不到匹配的附件图标则默认用other.png)
+      // 获取附件图标 找不到匹配的附件图标则默认用other.png
       // eslint-disable-next-line no-nested-ternary
       const pngName = MIME_TYPE.includes(fileExtension)
         ? fileExtension
@@ -256,7 +256,7 @@ export default class Message extends Vue {
     this.scrollToBottom();
   }
 
-   // 新消息
+  // 新消息
 
   @Watch('activeRoom.messages', { deep: true })
   changeMessages() {
@@ -275,7 +275,7 @@ export default class Message extends Vue {
     }
   }
 
-   // 在分页信息的基础上来了新消息
+  // 在分页信息的基础上来了新消息
 
   addMessage() {
     if (this.activeRoom.messages) {
@@ -290,7 +290,7 @@ export default class Message extends Vue {
     }
   }
 
-   // 监听滚动事件
+  // 监听滚动事件
 
   handleScroll(event: Event) {
     if (event.currentTarget) {
@@ -334,7 +334,7 @@ export default class Message extends Vue {
     });
   }
 
-   // 获取群聊消息
+  // 获取群聊消息
 
   async getGroupMessages() {
     const { groupId } = this.activeRoom;
@@ -426,7 +426,6 @@ export default class Message extends Vue {
   }
 
   // 是否URL
-
 
   _isUrl(text: string) {
     return isUrl(text);

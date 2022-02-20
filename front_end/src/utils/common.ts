@@ -50,6 +50,7 @@ export function isUrl(text: string) {
   // 解析网址
   // eslint-disable-next-line no-useless-escape
   const UrlReg = new RegExp(/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/);
+  console.log("url"+UrlReg.test(text));
   return UrlReg.test(text);
 }
 
