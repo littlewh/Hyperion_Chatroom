@@ -268,6 +268,24 @@ export class AuthService {
             user.createTime = new Date().valueOf()
             const newUser = await this.userRepository.save(user)
             const payload = { userId: newUser.userId }
+            // 默认加入群组
+            await this.groupUserRepository.save({
+              userId: newUser.userId,
+              groupId: defaultGroupId
+            })
+            // 默认添加机器人为好友
+            await this.userMapRepository.save({
+              userId: newUser.userId,
+              friendId: defaultRobotId
+            })
+            // 机器人欢迎语(默认留言)
+            await this.friendMessageRepository.save({
+              userId: defaultRobotId,
+              friendId: newUser.userId,
+              content: defaultWelcomeMessage,
+              messageType: 'text',
+              time: new Date().valueOf()
+            })
             return {
               msg: '注册成功',
               data: {
