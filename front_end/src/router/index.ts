@@ -10,9 +10,9 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/views/Chat.vue'),
   },
   {
-    path: '/',
-    name: 'Test1', // 注册功能需要依赖此bug运行，不过这行注释可以删
-    component: () => import('@/views/Prechat.vue'),
+    path: '/Test1',
+    name: 'Test1',
+    component: () => import('@/views/Test1.vue'),
   },
 ];
 

@@ -229,9 +229,9 @@ export default class Tool extends Vue {
     if (!isJpgOrPng) {
       return this.$message.error('请上传jpeg/jpg/png/gif格式的图片!');
     }
-    const isLt1M = file.size / 1024 / 1024 < 0.5;
+    const isLt1M = file.size / 1024 / 1024 < 5;
     if (!isLt1M) {
-      return this.$message.error('图片必须小于500K!');
+      return this.$message.error('图片必须小于5M!');
     }
     this.avatar = file;
     this.handleUpload();

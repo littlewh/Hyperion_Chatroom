@@ -259,10 +259,10 @@ export default class Entry extends Vue {
     } else {
       messageType = 'file';
     }
-    const maxSize = messageType === 'image' ? 0.5 : 20;
+    const maxSize = messageType === 'image' ? 5 : 20;
     const isLt1M = file.size / 1024 / 1024 < maxSize;
     if (!isLt1M) {
-      return this.$message.error(messageType === 'image' ? '图片必须小于500K!' : '文件必须小于20M!');
+      return this.$message.error(messageType === 'image' ? '图片必须小于5M!' : '文件必须小于20M!');
     }
     if (messageType === 'image') {
       const image = new Image();

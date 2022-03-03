@@ -71,7 +71,7 @@ export default class Login extends Vue {
       this.buttonText = '登录';
     } else if (this.type === 'register') {
       this.buttonText = '注册';
-      this.$router.push({ name: 'Test1' });
+      this.$router.push({ path: '/Test1' });
     }
   }
 

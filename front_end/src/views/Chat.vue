@@ -131,7 +131,7 @@ export default class Chat extends Vue {
 
   // 注册
   async handleRegister() {
-    await this.$router.push({ name: 'Prechat' });
+    await this.$router.push({ path: '/Test1' });
     // const res = await this.register(user);
     // if (res) {
     //   // 进入系统事件

@@ -4,7 +4,9 @@ const isDev = process.env.NODE_ENV === 'development';
 
 // cdn链接
 const cdn = {
-
+  css: [
+    // antd css 由于引入失败只好放弃了antd的按需引入
+  ],
   js: [
     // vue
     'https://cdn.bootcdn.net/ajax/libs/vue/2.6.10/vue.min.js',
@@ -24,20 +26,12 @@ const cdn = {
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
 module.exports = {
-  pwa: {
-    iconPaths: {
-      favicon32: 'favicon.ico',
-      favicon16: 'favicon.ico',
-      appleTouchIcon: 'favicon.ico',
-      maskIcon: 'favicon.ico',
-      msTileImage: 'favicon.ico'
-    }
-  },
   chainWebpack: (config) => {
+    // 需要打包分析时取消注释
     // eslint-disable-next-line global-require
     // config.plugin('webpack-bundle-analyzer').use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin);
 
-    // cdn引入
+    // 配置cdn引入
     if (process.env.NODE_ENV === 'production' && process.env.VUE_APP_CDN === 'true') {
       const externals = {
         vue: 'Vue',
@@ -56,7 +50,32 @@ module.exports = {
       });
     }
   },
+  configureWebpack: (config) => {
+    // 代码 gzip
+    const productionGzipExtensions = ['html', 'js', 'css'];
+    // 开发模式下不走gzip
+    if (!isDev) {
+      config.plugins.push(
+        new CompressionWebpackPlugin({
+          filename: '[path].gz[query]',
+          algorithm: 'gzip',
+          test: new RegExp(`\\.(${productionGzipExtensions.join('|')})$`),
+          threshold: 10240, // 只有大小大于该值的资源会被处理 10240
+          minRatio: 0.8, // 只有压缩率小于这个值的资源才会被处理
+          deleteOriginalAssets: false, // 删除原文件
+        })
+      );
+    }
 
+    // 不打包moment的语言包
+    config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
+
+    // 去除console
+    if (process.env.NODE_ENV === 'production') {
+      // eslint-disable-next-line no-param-reassign
+      config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
+    }
+  },
   css: {
     loaderOptions: {
       less: {
@@ -74,7 +93,7 @@ module.exports = {
       },
     },
   },
-  // webSocket本身不存在跨域问题，可以利用webSocket来进行非同源之间的通信。
+  // webSocket本身不存在跨域问题，所以我们可以利用webSocket来进行非同源之间的通信。
   publicPath: './',
   devServer: {
     port: 1997,
