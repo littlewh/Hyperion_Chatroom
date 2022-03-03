@@ -115,7 +115,7 @@ export default class Chat extends Vue {
       if (res) {
         // 进入系统事件
         await this.handleJoin();
-        this.$router.go(0); // 刷新页面
+        this.$router.push({ path: '/' }); // 登录页面
       }
     }
   }
