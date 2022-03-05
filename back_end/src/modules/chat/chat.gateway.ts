@@ -243,7 +243,9 @@ export class ChatGateway {
           data.messageType === 'image' ? IMAGE_SAVE_PATH : FILE_SAVE_PATH
         const saveName =
           data.messageType === 'image'
-            ? `${Date.now()}$${data.userId}$${data.width}$${data.height}`
+            ? `${Date.now()}$${data.userId}$${data.width}$${data.height}$${
+              data.fileName
+            }`
             : `${Date.now()}$${data.userId}$${formatBytes(data.size)}$${
                 data.fileName
               }`
@@ -441,7 +443,9 @@ export class ChatGateway {
             data.messageType === 'image' ? IMAGE_SAVE_PATH : FILE_SAVE_PATH
           const saveName =
             data.messageType === 'image'
-              ? `${Date.now()}$${data.userId}$${data.width}$${data.height}`
+              ? `${Date.now()}$${data.userId}$${data.width}$${data.height}$${
+                data.fileName
+              }`
               : `${Date.now()}$${data.userId}$${formatBytes(data.size)}$${
                   data.fileName
                 }`
@@ -549,6 +553,10 @@ export class ChatGateway {
         question: data.content
       }
     })
+    res.data.replace("小冰","爱酱")
+    if(data.content === "你多大了") {
+      res.data = "应该...有D吧"
+    }
     const reply = {
       time: new Date().valueOf(),
       content: res.data,
