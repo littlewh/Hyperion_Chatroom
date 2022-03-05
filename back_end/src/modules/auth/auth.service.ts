@@ -273,10 +273,14 @@ export class AuthService {
               userId: newUser.userId,
               groupId: defaultGroupId
             })
-            // 默认添加机器人为好友
+            // 默认添加机器人为好友 双向添加
             await this.userMapRepository.save({
               userId: newUser.userId,
               friendId: defaultRobotId
+            })
+            await this.userMapRepository.save({
+              friendId: defaultRobotId,
+              userId: newUser.userId
             })
             // 机器人欢迎语(默认留言)
             await this.friendMessageRepository.save({

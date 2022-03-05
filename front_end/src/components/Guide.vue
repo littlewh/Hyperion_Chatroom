@@ -263,7 +263,8 @@ export default class Tool extends Vue {
   }
 
   get isDemo() {
-    return window.location.host.includes('http://localhost:1997') || process.env.NODE_ENV === 'development';
+    // return window.location.host.includes('http://localhost:1997') || process.env.NODE_ENV === 'development';
+    return true;
   }
 }
 </script>
