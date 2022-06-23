@@ -31,7 +31,7 @@ import { User } from './../user/entity/user.entity'
 import { WsJwtGuard } from './../../common/guards/WsJwtGuard'
 import { Ai } from '../Ai/ai.entity';
 const axios = require('axios')
-const nodejieba = require('nodejieba')
+// const nodejieba = require('nodejieba')
 
 // const axios = require('axios');
 

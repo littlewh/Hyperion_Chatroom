@@ -144,7 +144,7 @@ export class UserService {
     if (newUser) {
       const random = Date.now() + '&'
       const stream = createWriteStream(
-        join('public/avatar', random + file.originalname)
+        join('deploy/public/avatar', random + file.originalname)
       )
       stream.write(file.buffer)
       newUser.avatar = `/avatar/${random}${file.originalname}`
