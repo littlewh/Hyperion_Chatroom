@@ -3,9 +3,9 @@ const webpack = require('webpack');
 const isDev = process.env.NODE_ENV === 'development';
 
 // cdn链接
-const cdn = {
+const cdn = {//按需引入
   css: [
-    // antd css 由于引入失败只好放弃了antd的按需引入
+
   ],
   js: [
     // vue

@@ -1,7 +1,6 @@
 {
   "name": "back_end",
   "version": "1.0.0",
-  "description": "",
   "description": "A Vue.js project",
   "author": "littlewh <little_www@outlook.com>",
   "private": true,
@@ -30,6 +29,7 @@
     "@nestjs/platform-socket.io": "^7.2.0",
     "@nestjs/typeorm": "^7.1.0",
     "@nestjs/websockets": "^7.2.0",
+    "amqplib": "^0.10.3",
     "axios": "^0.21.0",
     "crypto": "^1.0.1",
     "mongodb": "^3.5.9",
@@ -39,6 +39,7 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
+    "redis": "^3.1.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
@@ -73,9 +74,7 @@
     "typescript": "^3.7.4"
   },
   "husky": {
-    "hooks": {
-
-    }
+    "hooks": {}
   },
   "lint-staged": {
     "src/**/*.{js,ts}": [

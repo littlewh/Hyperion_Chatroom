@@ -8,8 +8,8 @@ const config = {
   host: 'smtp.qq.com',
   port: 465,
   auth: {
-    user: '2313722687@qq.com', //注册的163邮箱账号
-    pass: 'fztyhfwddrikecig' //邮箱的授权码，不是注册时的密码,等你开启的stmp服务自然就会知道了
+    user: '2313722687@qq.com', //注册邮箱账号
+    pass: 'fztyhfwddrikecig' //邮箱的授权码
   }
 };
 

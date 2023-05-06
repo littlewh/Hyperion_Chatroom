@@ -545,30 +545,34 @@ export class ChatGateway {
   // 机器人自动回复
   async autoReply(data, roomId) {
     const url =
-      'http://i.itpk.cn/api.php?api_key=68b8fafef36d3906f8f8b0e71b29d277&api_secret=4rdiunvqd0xw'
-    const res = await axios({
-      url,
-      method: 'get',
-      params: {
-        question: data.content
+      // 'http://i.itpk.cn/api.php?api_key=68b8fafef36d3906f8f8b0e71b29d277&api_secret=4rdiunvqd0xw'
+      'https://apis.tianapi.com/robot/index'
+
+    try{
+      const res = await axios({
+        url,
+        method: 'get',
+        params: {
+          key: 'f121b08082547d1006a5ee1a83e424b6',
+          question: data.content,
+        }
+      })
+      const reply = {
+        time: new Date().valueOf(),
+        content: res.data.result.reply,
+        userId: defaultRobotId,
+        friendId: data.userId,
+        messageType: 'text'
       }
-    })
-    res.data.replace("小冰","爱酱")
-    if(data.content === "你多大了") {
-      res.data = "应该...有D吧"
+      // 保存至好友消息表
+      await this.friendMessageRepository.save(reply)
+      this.server
+        .to(roomId)
+        .emit('friendMessage', { code: RCode.OK, msg: '', data: reply })
     }
-    const reply = {
-      time: new Date().valueOf(),
-      content: res.data,
-      userId: defaultRobotId,
-      friendId: data.userId,
-      messageType: 'text'
+    catch (error) {
+      console.log(error);
     }
-    // 保存至好友消息表
-    await this.friendMessageRepository.save(reply)
-    this.server
-      .to(roomId)
-      .emit('friendMessage', { code: RCode.OK, msg: '', data: reply })
   }
 
   // 获取所有群和好友数据
