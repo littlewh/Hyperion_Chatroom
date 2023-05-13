@@ -18,6 +18,12 @@ export class AuthController {
     console.log(body)
     return this.authService.register(body)
   }
+  // 找回密码
+  @Post('/retrieve')
+  async retrieve(@Body() body) {
+    console.log(body)
+    return this.authService.retrieve(body)
+  }
 
   @Post("/email")
   async sendmail(@Body() body) {

@@ -65,7 +65,7 @@ export class ChatGateway {
     const user = this.authService.verifyUser(token)
     const { userId } = user
     // 连接默认加入DEFAULG_GROUP
-    // TODO 待优化
+
     client.join(defaultGroupId)
     // 进来统计一下在线人数
 
@@ -214,7 +214,7 @@ export class ChatGateway {
     }
   }
 
-  // 发送群消息
+  // 发送群聊消息
   @UseGuards(WsJwtGuard)
   @SubscribeMessage('groupMessage')
   async sendGroupMessage(@MessageBody() data: GroupMessageDto): Promise<any> {
@@ -432,7 +432,7 @@ export class ChatGateway {
         const roomId =
           data.userId > data.friendId
             ? data.userId + data.friendId
-            : data.friendId + data.userId
+            : data.friendId + data.userId//拼接房间号字符串，保证收发人房间号一致
         // 根据文件类型判断保存路径
         if (
           data.messageType === 'file' ||

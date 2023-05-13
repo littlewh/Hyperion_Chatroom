@@ -1,55 +1,46 @@
-<!-- 邮件界面-->
+<!-- 登录界面-->
 <template>
-  <div class="register">
-      <a-form id="components-form-demo-normal-register" :form="form" class="register-form" @submit="handleSubmit">
+  <div class="login">
+    <a-modal header="" footer="" :visible="showModal" :closable="false">
+      <a-tabs @change="changeType">
+        <a-tab-pane key="register" tab="注册"> </a-tab-pane>
+        <a-tab-pane key="login" tab="登录" force-render> </a-tab-pane>
+      </a-tabs>
+      <a-form id="components-form-demo-normal-login" :form="form" class="login-form" @submit="handleSubmit">
         <a-form-item>
-          <a-text style="color: rgb(100, 100, 100); position: absolute; left: -35px; top: -9px">昵称:</a-text>
-          <a-input v-decorator="['username', { rules: [{ required: true, message: '请输入昵称！' }] }]" placeholder="请输入昵称">
+          <a-input v-decorator="['username', { rules: [{ required: true, message: '请输入用户名!' }] }]" placeholder="username">
             <a-icon slot="prefix" type="user" style="color: rgba(0, 0, 0, 0.25)" />
           </a-input>
         </a-form-item>
         <a-form-item>
-          <a-text style="color: rgb(100, 100, 100); position: absolute; left: -35px; top: -9px">密码:</a-text>
           <a-input
-            v-decorator="['password', { rules: [{ required: true, message: '请输入密码！' }] }]"
+            v-decorator="['password', { rules: [{ required: true, message: '请输入密码!' }] }]"
             type="password"
-            placeholder="请输入密码"
+            placeholder="Password"
           >
             <a-icon slot="prefix" type="lock" style="color: rgba(0, 0, 0, 0.25)" />
           </a-input>
         </a-form-item>
         <a-form-item>
-          <a-text style="color: rgb(100, 100, 100); position: absolute; left: -35px; top: -9px">邮箱:</a-text>
-          <a-input v-decorator="['email', { rules: [{ required: true, message: '请输入邮箱！' }] }]" placeholder="请输入邮箱">
+          <a-input v-decorator="['email', { rules: [{ required: true, message: '请输入邮箱!' }] }]" placeholder="email">
             <a-icon slot="prefix" type="mail" style="color: rgba(0, 0, 0, 0.25)" />
           </a-input>
         </a-form-item>
-        <a-form-item style="position: absolute; width: 150px">
-          <a-text style="color: rgb(100, 100, 100); position: absolute; left: -50px; top: -9px">验证码:</a-text>
-          <a-input v-decorator="['code', { rules: [{ required: false, message: '请输入验证码！' }] }]" placeholder="请输入验证码">
+        <a-form-item>
+          <a-input v-decorator="['code', { rules: [{ required: false, message: '请输入验证码!' }] }]" placeholder="code">
             <a-icon slot="prefix" type="code" style="color: rgba(0, 0, 0, 0.25)" />
           </a-input>
-          <a-button
-            style="position: absolute; border: 0px; top: -8px; left: 160px; width: 95px"
-            type="primary"
-            html-type="submit"
-            :loading="loading"
-            class="register-form-button">
-                  {{ '发送验证码' }}
-          </a-button>
-      </a-form-item>
+        </a-form-item>
         <a-form-item>
-          <a-button
-            style="position: absolute; top: 66px; left: -190px;width: 333px"
-            type="primary"
-            html-type="submit"
-            :loading="loading"
-            class="register-form-button">
-                  {{ '提交' }}
+          <a-button type="primary" html-type="submit" :loading="loading" class="login-form-button">
+            {{ '发送验证码' }}
+          </a-button>
+          <a-button type="primary" html-type="submit" :loading="loading" class="login-form-button">
+            {{ buttonText }}
           </a-button>
         </a-form-item>
-    </a-form>
-
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -61,7 +52,7 @@ import { emailVerify, nameVerify, passwordVerify } from '@/utils/common';
 const appModule = namespace('app');
 
 @Component
-export default class Register extends Vue {
+export default class Login extends Vue {
   @appModule.Getter('loading') loading: boolean;
 
   @Prop() showModal: boolean;
@@ -70,12 +61,23 @@ export default class Register extends Vue {
 
   type: string = 'register';
 
+  buttonText: string = '注册';
+
   created() {
     this.form = this.$form.createForm(this, { name: 'normal_register' });
   }
 
+  changeType(type: string) {
+    this.type = type;
+    if (this.type === 'login') {
+      this.buttonText = '登录';
+      this.$router.push({ path: '/' });
+    } else if (this.type === 'register') {
+      this.buttonText = '注册';
+    }
+  }
+
   handleSubmit(e: any) {
-    // console.log("submit");
     e.preventDefault();
     this.form.validateFields((err: any, user: User) => {
       if (!err) {
@@ -99,13 +101,13 @@ export default class Register extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-#components-form-demo-normal-register .register-form {
+#components-form-demo-normal-login .login-form {
   max-width: 300px;
 }
-#components-form-demo-normal-register .register-form-forgot {
+#components-form-demo-normal-login .login-form-forgot {
   float: right;
 }
-#components-form-demo-normal-register .register-form-button {
+#components-form-demo-normal-login .login-form-button {
   width: 100%;
 }
 </style>

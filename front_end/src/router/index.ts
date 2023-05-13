@@ -10,9 +10,14 @@ const routes: Array<RouteConfig> = [
     component: () => import('@/views/Chat.vue'),
   },
   {
-    path: '/Test1',
-    name: 'Test1',
-    component: () => import('@/views/Test1.vue'),
+    path: '/RegisterForChat',
+    name: 'RegisterForChat',
+    component: () => import('@/views/RegisterForChat.vue'),
+  },
+  {
+    path: '/RetrievePasswordChat',
+    name: 'RetrievePasswordChat',
+    component: () => import('@/views/RetrievePasswordChat.vue'),
   },
 ];
 

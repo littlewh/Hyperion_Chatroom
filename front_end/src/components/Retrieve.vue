@@ -3,9 +3,8 @@
   <div class="login">
     <a-modal header="" footer="" :visible="showModal" :closable="false">
       <a-tabs @change="changeType">
-        <a-tab-pane key="login" tab="登录"> </a-tab-pane>
-        <a-tab-pane key="register" tab="注册" force-render> </a-tab-pane>
-<!--        <a-tab-pane key="retrieve" tab="找回密码" force-render> </a-tab-pane>-->
+        <a-tab-pane key="retrieve" tab="找回密码"> </a-tab-pane>
+        <a-tab-pane key="login" tab="登录" force-render> </a-tab-pane>
       </a-tabs>
       <a-form id="components-form-demo-normal-login" :form="form" class="login-form" @submit="handleSubmit">
         <a-form-item>
@@ -15,7 +14,7 @@
         </a-form-item>
         <a-form-item>
           <a-input
-            v-decorator="['password', { rules: [{ required: true, message: '请输入密码!' }] }]"
+            v-decorator="['password', { rules: [{ required: true, message: '请输入新密码!' }] }]"
             type="password"
             placeholder="Password"
           >
@@ -23,28 +22,23 @@
           </a-input>
         </a-form-item>
         <a-form-item>
-          <a-checkbox
-            v-decorator="[
-              'remember',
-              {
-                valuePropName: 'checked',
-                initialValue: false,
-              },
-            ]"
-          >
-            记住密码
-          </a-checkbox>
+          <a-input v-decorator="['email', { rules: [{ required: true, message: '请输入邮箱!' }] }]" placeholder="email">
+            <a-icon slot="prefix" type="mail" style="color: rgba(0, 0, 0, 0.25)" />
+          </a-input>
+        </a-form-item>
+        <a-form-item>
+          <a-input v-decorator="['code', { rules: [{ required: false, message: '请输入验证码!' }] }]" placeholder="code">
+            <a-icon slot="prefix" type="code" style="color: rgba(0, 0, 0, 0.25)" />
+          </a-input>
+        </a-form-item>
+        <a-form-item>
+          <a-button type="primary" html-type="submit" :loading="loading" class="login-form-button">
+            {{ '发送验证码' }}
+          </a-button>
           <a-button type="primary" html-type="submit" :loading="loading" class="login-form-button">
             {{ buttonText }}
           </a-button>
         </a-form-item>
-        <div style="text-align: right;">
-          <a-text
-            style="font-size: 15px; color: #3094fc; cursor: pointer; text-decoration-line: underline"
-            @click="back"
-          >找回密码</a-text
-          >
-        </div>
       </a-form>
     </a-modal>
   </div>
@@ -53,7 +47,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
-import { nameVerify, passwordVerify } from '@/utils/common';
+import { emailVerify, nameVerify, passwordVerify } from '@/utils/common';
 
 const appModule = namespace('app');
 
@@ -65,36 +59,29 @@ export default class Login extends Vue {
 
   form: any = null;
 
-  type: string = 'login';
+  type: string = 'retrieve';
 
-  buttonText: string = '登录';
+  buttonText: string = '找回';
 
   created() {
-    this.form = this.$form.createForm(this, { name: 'normal_login' });
+    this.form = this.$form.createForm(this, { name: 'normal_retrieve' });
   }
 
   changeType(type: string) {
     this.type = type;
     if (this.type === 'login') {
       this.buttonText = '登录';
-    } else if (this.type === 'register') {
-      this.buttonText = '注册';
-      this.$router.push({ path: '/RegisterForChat' });
+      this.$router.push({ path: '/' });
     } else if (this.type === 'retrieve') {
-      this.buttonText = '找回密码';
-      this.$router.push({ path: '/RetrievePasswordChat' });
+      this.buttonText = '提交';
     }
-
-  }
-  back(){
-    this.$router.push({ path: '/RetrievePasswordChat' });
   }
 
   handleSubmit(e: any) {
     e.preventDefault();
     this.form.validateFields((err: any, user: User) => {
       if (!err) {
-        if (this.type === 'register') {
+        if (this.type === 'retrieve') {
           user.createTime = new Date().valueOf();
         }
         delete (user as any).remember;
@@ -102,6 +89,9 @@ export default class Login extends Vue {
           return;
         }
         if (!passwordVerify(user.password)) {
+          return;
+        }
+        if(!emailVerify(user.email)) {
           return;
         }
         this.$emit(this.type, user);

@@ -3,7 +3,7 @@ import { requestSuccess, requestFail, responseSuccess, responseFail } from './in
 
 const fetch: AxiosInstance = axios.create({
   timeout: 60000, // 超时时间一分钟
-  baseURL: process.env.VUE_APP_API_URL,
+  baseURL: process.env.VUE_APP_API_URL,//CORS解决跨域问题
   headers: {
     'Cache-Control': 'no-cache',
     Pragma: 'no-cache',

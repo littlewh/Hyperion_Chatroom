@@ -30,6 +30,7 @@
     </div>
     <!-- 登录注册 -->
     <Login @register="handleRegister" @login="handleLogin" :showModal="showModal"></Login>
+
     <!-- 移动端兼容 -->
     <a-drawer placement="left" :closable="false" :visible="visibleDrawer" @close="toggleDrawer" style="height: 100%">
       <div class="chat-drawer">
@@ -49,7 +50,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import Nav from '@/components/Guide.vue';
-import Login from '@/components/Login.vue';
+import Login from '@/components/Register.vue';
 import Room from '@/components/Room.vue';
 import Message from '@/components/Message.vue';
 import Search from '@/components/Search.vue';
@@ -73,13 +74,15 @@ export default class Chat extends Vue {
 
   @appModule.Mutation('clear_user') clearUser: Function;
 
-  @appModule.Action('login') login: Function;
+  @appModule.Action('register') register: Function;
 
   @appModule.Getter('background') background: string;
 
   @appModule.Getter('activeTabName') activeTabName: string;
 
   @appModule.Mutation('set_activeTabName') _setActiveTabName: Function;
+
+  @appModule.Action('send') send: Function;
 
   @chatModule.Getter('socket') socket: SocketIOClient.Socket;
 
@@ -121,25 +124,30 @@ export default class Chat extends Vue {
 
   // 登录
   async handleLogin(user: User) {
-    const res = await this.login(user);
-    if (res) {
-      // 进入系统事件
-      await this.handleJoin();
-    }
+    await this.$router.push({ path: '/' });
   }
 
   // 注册
-  async handleRegister() {
-    await this.$router.push({ path: '/RegisterForChat' });
-    // const res = await this.register(user);
-    // if (res) {
-    //   // 进入系统事件
-    //   this.handleJoin();
-    // }
+  async handleRegister(email: Email) {
+    console.log('handleregister');
+    console.log(email);
+    if (email.code == undefined || email.code === '') {
+      // 验证码
+      const res = await this.send(email);
+      if (res) {
+        // 进入系统事件
+        await this.handleJoin();
+      }
+    } else {
+      const res = await this.register(email);
+      if (res) {
+        // 进入系统事件
+        await this.handleJoin();
+        this.$router.push({ path: '/' }); // 登录页面
+      }
+    }
   }
-  async back() {
-    await this.$router.push({ path: '/RetrievePasswordChat' });
-  }
+
   // 进入系统初始化事件
   async handleJoin() {
     this.showModal = false;

@@ -7,6 +7,19 @@ import { RootState } from '../../index';
 
 const actions: ActionTree<AppState, RootState> = {
 
+  async retrieve({ commit }, payload) {
+    commit(SET_LOADING, true);
+    const res = await axios.post('/auth/retrieve', {
+      ...payload,
+    });
+    const data = processReturn(res);
+    commit(SET_LOADING, false);
+    if (data) {
+      commit(SET_USER, data.user);
+      commit(SET_TOKEN, data.token);
+      return data;
+    }
+  },
   async register({ commit }, payload) {
     commit(SET_LOADING, true);
     const res = await axios.post('/auth/register', {

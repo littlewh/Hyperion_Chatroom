@@ -23,7 +23,7 @@ const appState: AppState = {
   mobile: false,
   background: '',
   activeTabName: 'message',
-  apiUrl: process.env.VUE_APP_API_URL, // 后台api地址
+  apiUrl: process.env.VUE_APP_API_URL, // 后台api地址,CORS解决跨域问题
   loading: false, // 全局Loading状态
 };
 
