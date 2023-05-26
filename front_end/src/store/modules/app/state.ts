@@ -20,7 +20,7 @@ const appState: AppState = {
     createTime: 0,
   },
   token: cookie.get('token') as string,
-  mobile: false,
+  mobile: false,// 是否为移动端
   background: '',
   activeTabName: 'message',
   apiUrl: process.env.VUE_APP_API_URL, // 后台api地址,CORS解决跨域问题

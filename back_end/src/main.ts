@@ -7,16 +7,18 @@ import { ResponseInterceptor } from './common/interceptor/response.interceptor'
 import { join } from 'path'
 import { IoAdapter } from '@nestjs/platform-socket.io'
 
-const fix_socket_io_bug = require('./fix')
+const fix_socket_io_bug = require('./fix')// 修复socket.io的bug，修改socket.io serveClient,避免ncc打包后启动报错
 
 async function bootstrap() {
   await fix_socket_io_bug()
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    cors: true
+    cors: true// 允许启用跨域资源共享 (CORS)
   })
+  // 使用socket.io
   app.useWebSocketAdapter(new IoAdapter(app))
 
+  //启用日志记录中间件
   app.use(logger)
 
   // 全局过滤器
@@ -25,7 +27,7 @@ async function bootstrap() {
   // 配置全局拦截器
   app.useGlobalInterceptors(new ResponseInterceptor())
 
-  // 配置静态资源
+  // 配置静态资源读取客户端缓存
   app.useStaticAssets(join(__dirname, '../public', '/'), {
     prefix: '/',
     setHeaders: res => {

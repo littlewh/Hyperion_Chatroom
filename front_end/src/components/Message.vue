@@ -270,7 +270,7 @@ export default class Message extends Vue {
 
   // 监听socket断连给出重连状态提醒
   @Watch('socket.disconnected') connectingSocket() {
-    if (this.socket.disconnected) {
+    if (this.socket.disconnected) {// 断开连接
       this.set_dropped(true);
     }
   }

@@ -3,7 +3,7 @@ import cookie from 'js-cookie';
 import { AppState } from './state';
 import { RootState } from '../../index';
 
-const getters: GetterTree<AppState, RootState> = {
+const getters: GetterTree<AppState, RootState> = {// 从state中获取数据
   user(state) {
     // eslint-disable-next-line no-unused-expressions
     state.user;
@@ -17,7 +17,7 @@ const getters: GetterTree<AppState, RootState> = {
   mobile(state) {
     return state.mobile;
   },
-  background(state) {
+  background(state) {// 获取背景图片
     // eslint-disable-next-line no-unused-expressions
     state.background;
     return localStorage.getItem('background');

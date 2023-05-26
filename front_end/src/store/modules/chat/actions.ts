@@ -38,7 +38,7 @@ const actions: ActionTree<ChatState, RootState> = {
       },
     });
     // token校验,失败则要求重新登录
-    socket.on('unauthorized', (msg: string) => {
+    socket.on('unauthorized', (msg: string) => {// 未授权
       Vue.prototype.$message.error(msg);
       // 清空token,socket
       commit(`app/${CLEAR_USER}`, {}, { root: true });
@@ -70,10 +70,10 @@ const actions: ActionTree<ChatState, RootState> = {
     // 新建群组
     socket.on('addGroup', (res: ServerRes) => {
       console.log('on addGroup', res);
-      if (res.code) {
+      if (res.code) {// 新建失败
         return Vue.prototype.$message.error(res.msg);
       }
-      Vue.prototype.$message.success(res.msg);
+      Vue.prototype.$message.success(res.msg);// 新建成功
       commit(SET_GROUP_GATHER, res.data);
       commit(`app/${SET_LOADING}`, false, { root: true });
     });
@@ -81,7 +81,7 @@ const actions: ActionTree<ChatState, RootState> = {
     // 加入群组
     socket.on('joinGroup', async (res: ServerRes) => {
       if (res.code) {
-        return Vue.prototype.$message.error(res.msg);
+        return Vue.prototype.$message.error(res.msg);// 加入失败
       }
       console.log('on joinGroup', res);
       const { invited, group, userId } = res.data;

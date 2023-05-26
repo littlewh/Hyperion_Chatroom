@@ -74,6 +74,8 @@ export default class Chat extends Vue {
 
   @appModule.Mutation('clear_user') clearUser: Function;
 
+  @appModule.Action('login') login: Function;
+
   @appModule.Action('retrieve') retrieve: Function;
 
   @appModule.Getter('background') background: string;

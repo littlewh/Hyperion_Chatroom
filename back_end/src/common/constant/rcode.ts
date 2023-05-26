@@ -1,4 +1,4 @@
-export enum RCode {
+export enum RCode {// 响应码
   OK,
   FAIL,
   ERROR,

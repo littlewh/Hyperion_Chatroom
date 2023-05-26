@@ -62,7 +62,7 @@ export class ChatGateway {
   // socket连接钩子
   async handleConnection(client: Socket): Promise<string> {
     const token = client.handshake.query.token
-    const user = this.authService.verifyUser(token)
+    const user = this.authService.verifyUser(token)//token身份验证
     const { userId } = user
     // 连接默认加入DEFAULG_GROUP
 
@@ -126,7 +126,10 @@ export class ChatGateway {
         return
       }
       if (!nameVerify(data.groupName)) {
-        return
+        return {
+          code: RCode.FAIL,
+          msg: '昵称格式不正确'
+        }
       }
       data = await this.groupRepository.save(data)
       client.join(data.groupId)
@@ -407,7 +410,7 @@ export class ChatGateway {
       const roomId =
         data.userId > data.friendId
           ? data.userId + data.friendId
-          : data.friendId + data.userId
+          : data.friendId + data.userId//拼接房间号字符串，保证收发人房间号一致
       if (relation) {
         client.join(roomId)
         this.server.to(data.userId).emit('joinFriendSocket', {
@@ -832,7 +835,7 @@ export class ChatGateway {
           ? messageDto.userId + messageDto.friendId
           : messageDto.friendId + messageDto.userId
       console.log('消息撤回---' + messageDto._id)
-      await this.friendMessageRepository.remove(friendMessage)
+      await this.friendMessageRepository.remove(friendMessage)//删除消息
       return this.server.to(roomId).emit('revokeMessage', {
         code: RCode.OK,
         msg: '已撤回了一条消息',

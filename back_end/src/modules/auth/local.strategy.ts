@@ -9,7 +9,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     super()
   }
 
-  async validate(username: string, password: string): Promise<any> {
+  async validate(username: string, password: string): Promise<any> {// 基于用户名和密码的本地身份验证
     if (!username || !password) {
       return false
     }

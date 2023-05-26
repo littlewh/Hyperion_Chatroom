@@ -172,9 +172,15 @@ const sendCode = () => {
             </table>        
           `
           };
-          transporter.sendMail(text);
+          try {
+            transporter.sendMail(text);
+            channel.ack(msg)
+          }
+          catch (e) {
+            channel.nack(msg,false,true)
+          }
         }, {
-          noAck: true
+          noAck: false
         });
       });
       // setTimeout(function() {

@@ -59,7 +59,7 @@ export class UserController {
   }
 
   @Post('/avatar')
-  @UseInterceptors(FileInterceptor('avatar'))
+  @UseInterceptors(FileInterceptor('avatar'))// 使用拦截器来处理上传的文件,并指定上传的文件将存储在 'avatar' 字段中
   setUserAvatar(@Req() req, @UploadedFile() file) {
     const user = this.authService.verifyUser(req.headers.token)
     return this.userService.setUserAvatar(user, file)

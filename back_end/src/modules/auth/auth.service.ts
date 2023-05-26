@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { User } from '../user/entity/user.entity'
-import { sha256 } from 'src/common/tool/utils'
+import { emailVerify, nameVerify, passwordVerify, sha256 } from 'src/common/tool/utils';
 import { RCode } from 'src/common/constant/rcode'
 import * as jwt from 'jsonwebtoken'
 import { jwtConstants } from './constants'
@@ -49,6 +49,14 @@ export class AuthService {
   async sendmail(mail: Mail): Promise<any> {
 
     // console.log("1");
+
+    if(!emailVerify(mail.email)){
+      return {
+        code: RCode.FAIL,
+        msg: '邮件格式不正确'
+      }
+    }
+
     const email = mail.email;//刚刚从前台传过来的邮箱
 
     const isHave = await this.userRepository.find({ email: mail.email })
@@ -126,6 +134,19 @@ export class AuthService {
     // console.log(data.userId);
     // console.log(data.username);
     // console.log(data.password);
+    if (!nameVerify(data.username)) {
+      return {
+        code: RCode.FAIL,
+        msg: '昵称格式不正确'
+      }
+    }
+    if (!passwordVerify(data.password)) {
+      return {
+        code: RCode.FAIL,
+        msg: '密码格式不正确'
+      }
+    }
+
     let user
     // 之前传userId 表示为单点登录,直接登录
     if (data.userId && !data.password) {
@@ -152,12 +173,31 @@ export class AuthService {
       msg: '登录成功',
       data: {
         user: user,
-        token: this.jwtService.sign(payload)
+        token: this.jwtService.sign(payload)//生成token返回给前端
       }
     }
   }
 
   async register(mail: Mail): Promise<any> {
+    if(!emailVerify(mail.email)){
+      return {
+        code: RCode.FAIL,
+        msg: '邮件格式不正确'
+      }
+    }
+    if (!nameVerify(mail.username)) {
+      return {
+        code: RCode.FAIL,
+        msg: '昵称格式不正确'
+      }
+    }
+    if (!passwordVerify(mail.password)) {
+      return {
+        code: RCode.FAIL,
+        msg: '密码格式不正确'
+      }
+    }
+
     // console.log("start register");
     const isHaveEmail = await this.userRepository.find({ email: mail.email })
     // console.log(isHave);
@@ -222,7 +262,7 @@ export class AuthService {
               msg: '注册成功',
               data: {
                 user: newUser,
-                token: this.jwtService.sign(payload)
+                token: this.jwtService.sign(payload)//生成token返回给前端
               }
             }
           } else {
@@ -301,6 +341,24 @@ export class AuthService {
   }
 
   async retrieve(mail: Mail): Promise<any> {
+    if(!emailVerify(mail.email)){
+      return {
+        code: RCode.FAIL,
+        msg: '邮件格式不正确'
+      }
+    }
+    if (!nameVerify(mail.username)) {
+      return {
+        code: RCode.FAIL,
+        msg: '昵称格式不正确'
+      }
+    }
+    if (!passwordVerify(mail.password)) {
+      return {
+        code: RCode.FAIL,
+        msg: '密码格式不正确'
+      }
+    }
     // console.log("start register");
     const isHaveEmail = await this.userRepository.find({ email: mail.email })
     let tempUser:User = isHaveEmail.pop();

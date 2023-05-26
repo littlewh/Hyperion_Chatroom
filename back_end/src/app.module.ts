@@ -6,7 +6,7 @@ import { ChatModule } from './modules/chat/chat.module';
 import { GroupModule } from './modules/group/group.module';
 import { FriendModule } from './modules/friend/friend.module';
 
-@Module({
+@Module({// 根模块
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',

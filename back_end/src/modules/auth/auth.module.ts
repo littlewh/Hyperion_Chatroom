@@ -17,8 +17,8 @@ import { Nodemailer } from './auth.nodemailer';
 // jwt模式下实现token授权登录
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, GroupMap, UserMap, FriendMessage]),
-    TypeOrmModule.forFeature([Mail]),
+    TypeOrmModule.forFeature([User, GroupMap, UserMap, FriendMessage]),// 注册User实体
+    TypeOrmModule.forFeature([Mail]),// 注册Mail实体
     // 注册jwt
     JwtModule.register({
       // jwt加密因子

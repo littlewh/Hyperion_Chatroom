@@ -7,7 +7,7 @@ import { RootState } from '../../index';
 
 const actions: ActionTree<AppState, RootState> = {
 
-  async retrieve({ commit }, payload) {
+  async retrieve({ commit }, payload) {// 重置密码
     commit(SET_LOADING, true);
     const res = await axios.post('/auth/retrieve', {
       ...payload,
@@ -20,7 +20,7 @@ const actions: ActionTree<AppState, RootState> = {
       return data;
     }
   },
-  async register({ commit }, payload) {
+  async register({ commit }, payload) {// 注册
     commit(SET_LOADING, true);
     const res = await axios.post('/auth/register', {
       ...payload,
@@ -33,9 +33,9 @@ const actions: ActionTree<AppState, RootState> = {
       return data;
     }
   },
-  async login({ commit }, payload) {
+  async login({ commit }, payload) {// 登录
     commit(SET_LOADING, true);
-
+    console.log(payload);
     const res = await axios.post('/auth/login', {
       ...payload,
     });
@@ -48,8 +48,9 @@ const actions: ActionTree<AppState, RootState> = {
     }
   },
 
-  async send({ commit }, payload) {
+  async send({ commit }, payload) {// 发送邮件
     // console.log("1");
+    console.log(payload);
     commit(SET_LOADING, true);
 
     const res = await axios.post('/auth/email', {
