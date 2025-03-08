@@ -125,7 +125,7 @@ export default class Room extends Vue {
   }
 
   mounted() {
-    // hack方法 页面初始化时定位到当前room
+    // 页面初始化时定位到当前room
     setTimeout(() => {
       this.setRoomScrollTop();
     }, 100);

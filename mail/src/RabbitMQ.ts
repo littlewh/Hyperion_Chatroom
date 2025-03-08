@@ -180,7 +180,7 @@ const sendCode = () => {
             channel.nack(msg,false,true)
           }
         }, {
-          noAck: false
+          noAck: false//
         });
       });
       // setTimeout(function() {

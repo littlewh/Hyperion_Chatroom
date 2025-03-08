@@ -626,16 +626,16 @@ export class ChatGateway {
         .addSelect('user.role', 'role')
         .where((qb: any) => {
           const subQuery = qb
-            .subQuery()
-            .select('s.userId')
-            .innerJoin('user_map', 'p', 'p.friendId = s.userId')
-            .from(`user`, 's')
-            .where('p.userId = :userId', { userId: isUser.userId })
-            .getQuery()
+            .subQuery()// 子查询
+            .select('s.userId')// 选择子查询的字段
+            .innerJoin('user_map', 'p', 'p.friendId = s.userId')//内连接朋友表，当且仅当两个结果相等时出现
+            .from(`user`, 's')// 子查询的表
+            .where('p.userId = :userId', { userId: isUser.userId })// 朋友表中的userId
+            .getQuery()// 获取子查询的sql
           // tslint:disable-next-line:prefer-template
           return 'user.userId IN ' + subQuery
         })
-        .getRawMany()
+        .getRawMany()// 获取原始数据而非实体
       // 获取所有群聊消息
       const groupMessagePromise = groups.map(async item => {
         const createTime = item.createTime // 用户进群时间

@@ -1,4 +1,4 @@
-<!-- 登录界面-->
+<!-- 找回密码界面-->
 <template>
   <div class="login">
     <a-modal header="" footer="" :visible="showModal" :closable="false">

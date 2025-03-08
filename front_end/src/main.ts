@@ -18,7 +18,7 @@ Vue.prototype.$moment = moment;
 // lodash
 Vue.prototype.$lodash = lodash;
 
-Vue.prototype.$localforage = localforage;
+Vue.prototype.$localforage = localforage;// 本地离线缓存
 
 Vue.use(contentmenu);
 Vue.use(Viewer, {

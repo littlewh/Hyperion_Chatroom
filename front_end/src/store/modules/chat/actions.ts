@@ -30,13 +30,14 @@ const actions: ActionTree<ChatState, RootState> = {
   // 初始化socket连接和监听socket事件
   async connectSocket({ commit, state, dispatch, rootState }) {
     const { user, token } = rootState.app;
+    //websocket协议在握手阶段借用了HTTP的协议来完成握手，握手成功后，就会升级到websocket协议
     const socket: SocketIOClient.Socket = io.connect(`ws://${process.env.VUE_APP_API_URL.split('http://')[1]}`, {
       reconnection: true,
       query: {
         token,
         userId: user.userId,
       },
-    });
+    });// 连接socket
     // token校验,失败则要求重新登录
     socket.on('unauthorized', (msg: string) => {// 未授权
       Vue.prototype.$message.error(msg);
@@ -52,7 +53,6 @@ const actions: ActionTree<ChatState, RootState> = {
       // 获取聊天室所需所有信息
       socket.emit('chatData', token);
 
-      // 先保存好socket对象
       commit(SET_SOCKET, socket);
     });
     // 用户上线

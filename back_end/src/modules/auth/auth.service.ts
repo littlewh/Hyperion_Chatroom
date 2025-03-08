@@ -107,11 +107,11 @@ export class AuthService {
             email: email,
             code: code,
           };
-          let msg = JSON.stringify(value);
-          channel.assertQueue(queue, {
-            durable: false
+          let msg = JSON.stringify(value);//将对象转换为Json串
+          channel.assertQueue(queue, {//指定队列
+            durable: false//非持久化队列，临时队列，不会被保存在磁盘中，Rabbit服务重启后队列就会消失
           });
-          channel.sendToQueue(queue, Buffer.from(msg));
+          channel.sendToQueue(queue, Buffer.from(msg));//发送消息到队列
 
           console.log(" [x] Sent %s", msg);
 
